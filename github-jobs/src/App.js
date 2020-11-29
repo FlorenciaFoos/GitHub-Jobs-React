@@ -11,6 +11,7 @@ function App() {
   const [page, setPage] = useState(1)
   const { jobs, loading, error, hasNextPage } = useFetchJobs(params, page)
 
+  //dependiendo el input utilizado paso los params que tipea el usuario
   function handleParamChange(e) {
     const param = e.target.name
     const value = e.target.value
