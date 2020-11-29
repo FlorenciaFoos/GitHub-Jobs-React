@@ -3,7 +3,7 @@
 
 
 Hecho con React Hooks, Bootstrap
-Consumiendo Api Github Jobs
+Consumiendo Api de Github Jobs
 
 # Getting Started with Create React App
 
