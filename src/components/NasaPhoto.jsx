@@ -1,11 +1,18 @@
 
 import React, { useState, useEffect } from "react";
 import NavBar from "./Navbar";
+import DatePicker from './DatePicker'
 import Moment from 'moment';
 const apiKey = process.env.REACT_APP_NASA_KEY;
 
 export default function NasaPhoto() {
     const [photoData, setPhotoData] = useState(null);
+    const [fecha, setFecha] = useState('')
+
+    const handleDate = (e) => {
+        console.log('fecha', e.target.value)
+        setFecha(e.target.value)
+    }
 
     useEffect(() => {
         fetchPhoto();
@@ -13,18 +20,19 @@ export default function NasaPhoto() {
         async function fetchPhoto() {
             const res = await fetch(
 
-                `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`
+                `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${fecha}`
             );
             const data = await res.json();
             setPhotoData(data);
         }
-    }, []);
+    }, [fecha]);
 
     if (!photoData) return <div />;
 
     return (
         <>
             <NavBar />
+            <DatePicker photoData={photoData} handleDate={handleDate} />
             <div className="nasa-photo">
                 {photoData.media_type === "image" ? (
                     <img
