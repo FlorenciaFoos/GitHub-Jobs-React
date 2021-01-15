@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import NavBar from "./Navbar";
+import Moment from 'moment';
 const apiKey = process.env.REACT_APP_NASA_KEY;
 
 export default function NasaPhoto() {
@@ -44,7 +45,7 @@ export default function NasaPhoto() {
                     )}
                 <div>
                     <h1>{photoData.title}</h1>
-                    <p className="date">{photoData.date}</p>
+                    <p className="date">{Moment(photoData.date).format('DD-MM-YYYY')}</p>
                     <p className="explanation">{photoData.explanation}</p>
                 </div>
             </div>

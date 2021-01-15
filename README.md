@@ -1,7 +1,7 @@
 
 SE PUEDE VER EN https://nasareact.netlify.app/
 
-# GitHub-NASA-React
+# NASA-React
 
 
 Hecho con React Hooks, Bootstrap
