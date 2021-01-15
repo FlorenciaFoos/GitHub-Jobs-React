@@ -8,16 +8,15 @@ const ACTIONS = {
   UPDATE_HAS_NEXT_PAGE: 'update-has-next-page'
 }
 
-//uso como proxi a heroku 'https://cors-anywhere.herokuapp.com/', porque no tengo server que se encargue de CORS
 
-const BASE_URL = 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json'
+const BASE_URL = 'https://api.nasa.gov/planetary/apod?api_key=JwXC7yy7TG5rtfBaJNyGwH50foUBCverouUVGH0a'
 
 function reducer(state, action) {
   switch (action.type) {
     case ACTIONS.MAKE_REQUEST:
       return { loading: true, jobs: [] }
     case ACTIONS.GET_DATA:
-      return { ...state, loading: false, jobs: action.payload.jobs }
+      return { ...state, loading: false, jobs: action.payload }
     case ACTIONS.ERROR:
       return { ...state, loading: false, error: action.payload.error, jobs: [] }
     case ACTIONS.UPDATE_HAS_NEXT_PAGE:
@@ -35,7 +34,7 @@ export default function useFetchJobs(params, page) {
     dispatch({ type: ACTIONS.MAKE_REQUEST })
     axios.get(BASE_URL, {
       cancelToken: cancelToken1.token,
-      params: { markdown: true, page: page, ...params }
+      //  params: { markdown: true, page: page, ...params }
     }).then(res => {
       dispatch({ type: ACTIONS.GET_DATA, payload: { jobs: res.data } })
     }).catch(e => {
@@ -43,23 +42,23 @@ export default function useFetchJobs(params, page) {
       dispatch({ type: ACTIONS.ERROR, payload: { error: e } })
     })
 
-    const cancelToken2 = axios.CancelToken.source()
-    //la api no tiene parametro que indique si hay next page, por ende hago otra llamada pasando "page" como "pagina actual + 1" 
-    axios.get(BASE_URL, {
-      cancelToken: cancelToken2.token,
-      params: { markdown: true, page: page + 1, ...params }
-    }).then(res => {
-      dispatch({ type: ACTIONS.UPDATE_HAS_NEXT_PAGE, payload: { hasNextPage: res.data.length !== 0 } })
-    }).catch(e => {
-      if (axios.isCancel(e)) return
-      dispatch({ type: ACTIONS.ERROR, payload: { error: e } })
-    })
+    // const cancelToken2 = axios.CancelToken.source()
+    // //la api no tiene parametro que indique si hay next page, por ende hago otra llamada pasando "page" como "pagina actual + 1" 
+    // axios.get(BASE_URL, {
+    //   cancelToken: cancelToken2.token,
+    //   // params: { markdown: true, page: page + 1, ...params }
+    // }).then(res => {
+    //   dispatch({ type: ACTIONS.UPDATE_HAS_NEXT_PAGE, payload: { hasNextPage: res.data.length !== 0 } })
+    // }).catch(e => {
+    //   if (axios.isCancel(e)) return
+    //   dispatch({ type: ACTIONS.ERROR, payload: { error: e } })
+    // })
 
     return () => {
       cancelToken1.cancel()
-      cancelToken2.cancel()
+      // cancelToken2.cancel()
     }
-  }, [params, page])
-
+  }, [])
+  console.log('estado que trae', state)
   return state
 }
