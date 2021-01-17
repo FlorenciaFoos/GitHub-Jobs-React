@@ -4,7 +4,7 @@ SE PUEDE VER EN https://nasareact.netlify.app/
 # NASA-React
 
 
-Hecho con React Hooks, Bootstrap
+Hecho con React Hooks
 Consumiendo Api de Github NASA
 
 # Getting Started with Create React App
